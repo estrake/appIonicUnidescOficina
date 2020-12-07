@@ -1,0 +1,96 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-title>
+      CADASTRO DE CLIENTES
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <form [formGroup]="clienteForm" (ngSubmit)="GravarDados()">
+
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input formControlName="NomeCliente"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Idade</ion-label>
+      <ion-input formControlName="Idade"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Carro</ion-label>
+      <ion-input formControlName="Carro"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="GravarDados()" [disabled]="clienteForm.invalid">
+        <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+        &nbsp;GRAVAR DADOS
+      </ion-button>
+    </ion-item>
+
+  </form>
+
+
+  <ion-card *ngFor="let item of clienteList" color="primary">
+    <span *ngIf="!item.isEdit; else elseBlock">
+      <ion-card-header>
+        <ion-card-title>{{item.NomeCliente}}</ion-card-title>
+        <ion-card-subtitle>{{item.Idade}} anos</ion-card-subtitle>
+        <ion-card-subtitle>Veículo: {{item.Carro}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+
+        <ion-button shape="round" color="secondary" size="small" (click)="EditarDados(item)">
+          <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+
+        </ion-button>
+        <ion-button shape="round" color="danger" size="small" (click)="DeletarDados(item.id)">
+          <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+
+        </ion-button>
+      </ion-card-content>
+    </span>
+    <ng-template #elseBlock>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                Editar
+              </ion-col>
+              <ion-col>
+                <ion-button fill="solid" color="medium" size="small" (click)="item.isEdit = false">
+                  Cancelar
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button fill="solid" color="success" size="small" (click)="UpdateRecord(item)">
+                  Atualizar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label><strong>Cliente</strong></ion-label>
+          <ion-input type="text" [(ngModel)]="item.EditNomeCliente"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Idade</strong></ion-label>
+          <ion-input type="text" [(ngModel)]="item.EditIdade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Carro</strong></ion-label>
+          <ion-input type="text" [(ngModel)]="item.EditCarro"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ng-template>
+  </ion-card>
+
+</ion-content>
